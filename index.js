@@ -8,7 +8,7 @@ window.addEventListener('load', () => {
       const { longitude, latitude, accuracy, altitude, altitudeAccuracy, heading, speed } = position.coords;
 
       const recordDiv = document.createElement('div');
-      recordDiv.textContent = `${timestamp.toLocaleTimeString()} | ${longitude.toFixed(4)}, ${latitude.toFixed(4)} (${accuracy} %)${altitude ? ' | ' + altitude.toFixed(2) : ''}${altitudeAccuracy ? ` (${altitudeAccuracy} %)` : ''}${heading ? ' | ' + heading : ''} ${speed ? ' | ' + speed : ''}`;
+      recordDiv.textContent = `${timestamp.toLocaleTimeString()} | ${longitude.toFixed(4)}, ${latitude.toFixed(4)} (${accuracy} %)${altitude ? ' | ' + altitude.toFixed(2) : ''}${altitudeAccuracy ? ` (${altitudeAccuracy.toFixed(0)} %)` : ''}${heading ? ' | ' + heading : ''} ${speed ? ' | ' + speed : ''}`;
       document.body.append(recordDiv);
 
       const z = 18;

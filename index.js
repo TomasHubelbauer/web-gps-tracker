@@ -4,20 +4,23 @@ window.addEventListener('load', () => {
 
   navigator.geolocation.watchPosition(
     position => {
+      const timestamp = new Date(position.timestamp);
+      const { longitude, latitude, accuracy, altitude, altitudeAccuracy, heading, speed } = position.coords;
+
       const recordDiv = document.createElement('div');
-      recordDiv.textContent = `${new Date(position.timestamp).toLocaleTimeString()} | ${position.coords.longitude.toFixed(4)}, ${position.coords.latitude.toFixed(4)} (${position.coords.accuracy} %) | ${(position.coords.altitude ? position.coords.altitude.toFixed(2) : '')} (${position.coords.altitudeAccuracy} $) | ${position.coords.heading || ''} | ${position.coords.speed || ''} \n`;
+      recordDiv.textContent = `${timestamp.toLocaleTimeString()} | ${longitude.toFixed(4)}, ${latitude.toFixed(4)} (${accuracy} %)${altitude ? ' | ' + altitude.toFixed(2) : ''}${altitudeAccuracy ? ` (${altitudeAccuracy} %)` : ''}${heading ? ' | ' + heading : ''} ${speed ? ' | ' + speed : ''}`;
       document.body.append(recordDiv);
 
       const z = 18;
-      const x = (position.coords.longitude + 180) / 360 * Math.pow(2, z);
-      const y = (1 - Math.log(Math.tan(position.coords.latitude * Math.PI / 180) + 1 / Math.cos(position.coords.latitude * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, z);
+      const x = (longitude + 180) / 360 * Math.pow(2, z);
+      const y = (1 - Math.log(Math.tan(latitude * Math.PI / 180) + 1 / Math.cos(latitude * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, z);
 
       const tileImage = new Image();
       tileImage.addEventListener('load', () => {
         context.drawImage(tileImage, 0, 0);
         context.fillStyle = 'rgba(0, 0, 255, .1)';
         context.beginPath();
-        context.arc((x % 1) * mapCanvas.width, (y % 1) * mapCanvas.height, (100 / position.coords.accuracy) * z, 0, 2 * Math.PI);
+        context.arc((x % 1) * mapCanvas.width, (y % 1) * mapCanvas.height, (100 / accuracy) * z, 0, 2 * Math.PI);
         context.fill();
       });
       tileImage.addEventListener('error', () => {

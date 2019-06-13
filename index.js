@@ -5,7 +5,7 @@ window.addEventListener('load', () => {
   navigator.geolocation.watchPosition(
     position => {
       const recordDiv = document.createElement('div');
-      recordDiv.textContent = `${new Date(position.timestamp).toLocaleTimeString()} | ${position.coords.longitude.toFixed(4)}, ${position.coords.latitude.toFixed(4)} (${position.coords.accuracy} %) | ${position.coords.altitude && position.coords.altitude.toFixed(2) || ''} (${position.coords.altitudeAccuracy} $) | ${position.coords.heading || ''} | ${position.coords.speed || ''} \n`;
+      recordDiv.textContent = `${new Date(position.timestamp).toLocaleTimeString()} | ${position.coords.longitude.toFixed(4)}, ${position.coords.latitude.toFixed(4)} (${position.coords.accuracy} %) | ${(position.coords.altitude ? position.coords.altitude.toFixed(2) : '')} (${position.coords.altitudeAccuracy} $) | ${position.coords.heading || ''} | ${position.coords.speed || ''} \n`;
       document.body.append(recordDiv);
 
       const z = 18;
